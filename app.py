@@ -22,7 +22,8 @@ modelo = tf.keras.Sequential([
 # Compilar el modelo
 modelo.compile(
     optimizer=tf.keras.optimizers.Adam(0.1),
-    loss='mean_absolute_error'
+    loss='mean_absolute_error',
+    metrics=['mse']
 )
 
 # Entrenar el modelo
@@ -31,8 +32,10 @@ historial = modelo.fit(train_celsius, train_fahrenheit, epochs=1000, verbose=Fal
 print("Modelo entrenado!")
 
 # Evaluar el modelo en el conjunto de prueba
-loss = modelo.evaluate(test_celsius, test_fahrenheit)
-print("Pérdida en el conjunto de prueba: ", loss)
+loss, mse = modelo.evaluate(test_celsius, test_fahrenheit)
+print("Pérdida en el conjunto de prueba (MAE): ", loss)
+print("Error cuadrático medio en el conjunto de prueba (MSE): ", mse)
+
 
 # Hacer una predicción
 resultado = modelo.predict([100.0])
